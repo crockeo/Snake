@@ -24,7 +24,7 @@ public class GameState extends BasicGameState {
 	
 	public void update(GameContainer gc, StateBasedGame sbg,
 			 		   int delta)
-			throws SlickException { world.update(); }
+			throws SlickException { world.update(gc.getInput()); }
 	
 	public void render(GameContainer gc, StateBasedGame sbg,
 					 Graphics g)

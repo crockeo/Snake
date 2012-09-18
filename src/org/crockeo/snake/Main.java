@@ -12,12 +12,15 @@ import org.newdawn.slick.SlickException;
 
 public class Main {
 	public Main() {
+		if (!Config.readConfig())
+			Config.writeConfig();
+		
 		AppGameContainer app = null;
 		
 		try {
 			app = new AppGameContainer(new StateSwitcher());
 
-			app.setDisplayMode(640, 480, false);
+			app.setDisplayMode(Config.displayWidth, Config.displayHeight, false);
 			app.setTargetFrameRate(60);
 			app.setShowFPS(false);
 			app.setTitle("Snake");

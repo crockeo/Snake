@@ -1,8 +1,11 @@
 package org.crockeo.snake.game.components.snake;
 
-import org.crockeo.snake.game.World;
 import org.crockeo.snake.game.components.Tile;
+import org.crockeo.snake.game.World;
+import org.crockeo.snake.Config;
+
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 
 import java.util.ArrayList;
 
@@ -17,9 +20,15 @@ public class Snake {
 	private SnakeHead head;
 	private ArrayList<SnakeBody> body;
 	
+	private boolean shouldAdd;
+	
 	public Snake(int x, int y) {
 		head = new SnakeHead(x, y);
+		
+		body = new ArrayList<>();
 		body.add(new SnakeBody(x, y + 1, head));
+		
+		shouldAdd = false;
 	}
 	
 	// Updating the snake
@@ -36,6 +45,10 @@ public class Snake {
 		for (SnakeBody b: body)
 			b.move();
 		
+		if (shouldAdd)
+			actuallyAddPart();
+		
+		
 		return false; // Player has NOT lost! :D
 	}
 	
@@ -44,6 +57,27 @@ public class Snake {
 		head.render(g, w);
 		for (SnakeBody b: body)
 			b.render(g, w);
+	}
+	
+	// Handling input
+	public void handleInput(Input i) {
+		if (i.isKeyDown(Config.upKey))
+			head.setDirection(0);
+		else if (i.isKeyDown(Config.downKey))
+			head.setDirection(1);
+		else if (i.isKeyDown(Config.leftKey))
+			head.setDirection(2);
+		else if (i.isKeyDown(Config.rightKey))
+			head.setDirection(3);
+	}
+	
+	// Adding 
+	public void addPart() { shouldAdd = true; }
+	private void actuallyAddPart() {
+		body.add(new SnakeBody(body.get(body.size() - 1).getLastX(),
+				   body.get(body.size() - 1).getLastY(),
+				   body.get(body.size() - 1)));
+		shouldAdd = false;
 	}
 	
 	// Accessors

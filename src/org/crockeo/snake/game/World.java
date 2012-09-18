@@ -3,10 +3,12 @@ package org.crockeo.snake.game;
 import org.crockeo.snake.game.components.snake.Snake;
 import org.crockeo.snake.game.components.Tiles;
 import org.crockeo.snake.game.components.Tile;
+import org.crockeo.snake.timing.Timer;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Input;
 
 import java.util.Random;
 
@@ -18,12 +20,16 @@ import java.util.Random;
  */
 
 public class World {
+	private Timer timer;
 	private Snake snake;
 	private Tile food;
 	
 	private int width, height;
-	private float tileWidth, tileHeight;
-	private float screenWidth, screenHeight;
+	private final float tileWidth, tileHeight;
+	private final float screenWidth, screenHeight;
+	
+	private long delay;
+	
 	public World(int width, int height,
 				 GameContainer gc) {
 		this.width = width;
@@ -34,15 +40,34 @@ public class World {
 		
 		screenWidth = gc.getWidth();
 		screenHeight = gc.getHeight();
+		
+		delay = 650;
 	}
 	
 	// Game functions
 	public void init() {
+		timer = new Timer();
 		snake = new Snake(width / 2, height / 2);
 		food = generateFood();
+		
+		timer.start();
 	}
 	
-	public void update() { snake.update(this); }
+	public void update(Input i) {
+		snake.handleInput(i);
+		
+		if (timer.getElapsedTimeInMillis() >= 1000) {
+			System.out.println(snake.getHead().toString());
+			
+			if (snake.update(this))
+				lose();
+			
+			if (snake.getHead().on(food))
+				snake.addPart();
+			
+			timer.reset();
+		}
+	}
 	
 	public void render(Graphics g) {
 		g.setColor(new Color(0, 0, 0));
@@ -52,8 +77,7 @@ public class World {
 		food.render(g, this);
 	}
 	
-	
-	// TODO: Implement food generation
+	// Generating food
 	private Tile generateFood() {
 		Tile t;
 		
@@ -69,6 +93,11 @@ public class World {
 		
 		t = new Tile(Tiles.FOOD, x, y);
 		return t;
+	}
+	
+	// Losing
+	public void lose() {
+		
 	}
 
 	// Accessors

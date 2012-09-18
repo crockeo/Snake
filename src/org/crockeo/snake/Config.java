@@ -12,7 +12,7 @@ import java.io.*;
  */
 
 public class Config {
-	public static void writeConfig() {
+	public static boolean writeConfig() {
 		BufferedWriter writer;
 		
 		try {
@@ -28,10 +28,14 @@ public class Config {
 			writer.write(leftKeyPrefix + " " + leftKey);
 			writer.write(rightKeyPrefix + " " + rightKey);
 			writer.write(selectKeyPrefix + " " + selectKey);
-		} catch (IOException e) { e.printStackTrace(); }
+			
+			writer.close();
+		} catch (IOException e) { e.printStackTrace(); return true; }
+		
+		return false;
 	}
 	
-	public static void readConfig() {
+	public static boolean readConfig() {
 		BufferedReader reader;
 		String line;
 		
@@ -54,14 +58,18 @@ public class Config {
 				else if (line.split(" ")[0] == selectKeyPrefix)
 					selectKey = Integer.parseInt(line.split(" ")[1]);
 			}
-		} catch (IOException e) { e.printStackTrace(); }
+			
+			reader.close();
+		} catch (IOException e) { e.printStackTrace(); return true; }
+		
+		return false;
 	}
 	
 	private static final String fileLocation = "config.cfg";
 	
 	// Display config
 	public static int displayWidth  = 640; public static final String displayWidthPrefix  = "display_width";
-	public static int displayHeight = 480; public static final String displayHeightPrefix = "display_height";
+	public static int displayHeight = 640; public static final String displayHeightPrefix = "display_height";
 	
 	// Key config
 	public static int upKey     = Input.KEY_W;     public static final String upKeyPrefix     = "key_up";

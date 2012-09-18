@@ -28,14 +28,18 @@ public class Tile {
 		lY = y;
 	}
 	
+	public String toString() {
+		return "TileType: " + tileType + "\nX: " + x + "\nY: " + y;
+	}
+	
 	// Checking if the tile is on another tile
 	public boolean on(Tile t) { return getX() == t.getX() && getY() == t.getY(); }
 	
 	// Moving
 	public void moveTo(int x, int y) { setPosition(x, y); }
 	public void move(int dX, int dY) {
-		x += dX;
-		y += dY;
+		setX(getX() + dX);
+		setY(getY() + dY);
 	}
 	
 	public void moveUp() { move(0, -1); }
@@ -46,7 +50,7 @@ public class Tile {
 	// Drawing
 	public void render(Graphics g, World w) {
 		g.setColor(new Color(255, 255, 255));
-		g.fillRect(x * w.getTileWidth(), w.getTileHeight(), w.getTileWidth(), w.getTileHeight());
+		g.fillRect(x * w.getTileWidth(), y * w.getTileHeight(), w.getTileWidth(), w.getTileHeight());
 	}
 	
 	// Accessors

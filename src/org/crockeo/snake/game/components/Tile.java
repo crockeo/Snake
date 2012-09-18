@@ -28,6 +28,9 @@ public class Tile {
 		lY = y;
 	}
 	
+	// Checking if the tile is on another tile
+	public boolean on(Tile t) { return getX() == t.getX() && getY() == t.getY(); }
+	
 	// Moving
 	public void moveTo(int x, int y) { setPosition(x, y); }
 	public void move(int dX, int dY) {

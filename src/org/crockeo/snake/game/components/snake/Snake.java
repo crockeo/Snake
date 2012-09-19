@@ -33,14 +33,16 @@ public class Snake {
 	
 	// Updating the snake
 	public boolean update(World w) {
+		boolean ret = false;
+	
 		head.move();
 		if ((head.getX() < 0 || head.getX() > w.getWidth() - 1)
 			|| (head.getY() < 0 || head.getY() > w.getHeight()))
-			return true; // Player has lost
+			ret = true; // Player has lost
 		
 		for (SnakeBody b: body)
 			if (head.on(b))
-				return true; // Player has lost
+				ret = true; // Player has lost
 		
 		for (SnakeBody b: body)
 			b.move();
@@ -49,7 +51,7 @@ public class Snake {
 			actuallyAddPart();
 		
 		
-		return false; // Player has NOT lost! :D
+		return ret; // Player has NOT lost! :D
 	}
 	
 	// Drawing the snake

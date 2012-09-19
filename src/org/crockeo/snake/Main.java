@@ -18,7 +18,7 @@ public class Main {
 		AppGameContainer app = null;
 		
 		try {
-			app = new AppGameContainer(new StateSwitcher());
+			app = new AppGameContainer(new Game());
 
 			app.setDisplayMode(Config.displayWidth, Config.displayHeight, false);
 			app.setTargetFrameRate(60);

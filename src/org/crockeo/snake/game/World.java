@@ -30,6 +30,8 @@ public class World {
 	
 	private long delay;
 	
+	private boolean lost;
+	
 	public World(int width, int height,
 				 GameContainer gc) {
 		this.width = width;
@@ -41,7 +43,7 @@ public class World {
 		screenWidth = gc.getWidth();
 		screenHeight = gc.getHeight();
 		
-		delay = 650;
+		delay = 500;
 	}
 	
 	// Game functions
@@ -51,19 +53,26 @@ public class World {
 		food = generateFood();
 		
 		timer.start();
+		
+		lost = false;
 	}
 	
 	public void update(Input i) {
+		if (lost)
+			return;
+		
 		snake.handleInput(i);
 		
-		if (timer.getElapsedTimeInMillis() >= 1000) {
-			System.out.println(snake.getHead().toString());
-			
+		if (timer.getElapsedTimeInMillis() >= delay) {			
 			if (snake.update(this))
 				lose();
 			
-			if (snake.getHead().on(food))
+			if (snake.getHead().on(food)) {
+				food = generateFood();
+				
 				snake.addPart();
+				delay -= 2;
+			}
 			
 			timer.reset();
 		}
@@ -97,7 +106,7 @@ public class World {
 	
 	// Losing
 	public void lose() {
-		
+		lost = true;
 	}
 
 	// Accessors

@@ -49,8 +49,16 @@ public class Tile {
 	
 	// Drawing
 	public void render(Graphics g, World w) {
-		g.setColor(new Color(255, 255, 255));
+		g.setColor(new Color(220, 220, 220));
 		g.fillRect(x * w.getTileWidth(), y * w.getTileHeight(), w.getTileWidth(), w.getTileHeight());
+		
+		g.setColor(new Color(155, 155, 155));
+		g.fillRect(x * w.getTileWidth() + w.getTileWidth() - 2, y * w.getTileHeight(), 2, w.getTileHeight());
+		g.fillRect(x * w.getTileWidth(), y * w.getTileHeight() + w.getTileHeight() - 2, w.getTileWidth(), 2);
+		
+		g.setColor(new Color(255, 255, 255));
+		g.fillRect(x * w.getTileWidth(), y * w.getTileHeight(), w.getTileWidth(), 2);
+		g.fillRect(x * w.getTileWidth(), y * w.getTileHeight(), 2, w.getTileHeight());
 	}
 	
 	// Accessors

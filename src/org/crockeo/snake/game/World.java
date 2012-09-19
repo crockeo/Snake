@@ -4,11 +4,17 @@ import org.crockeo.snake.game.components.snake.Snake;
 import org.crockeo.snake.game.components.Tiles;
 import org.crockeo.snake.game.components.Tile;
 import org.crockeo.snake.timing.Timer;
+import org.crockeo.snake.Writer;
 
+import org.newdawn.slick.font.effects.ColorEffect;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
+
+import java.awt.Font;
 
 import java.util.Random;
 
@@ -28,6 +34,8 @@ public class World {
 	private final float tileWidth, tileHeight;
 	private final float screenWidth, screenHeight;
 	
+	private int score;
+	
 	private long delay;
 	
 	private boolean lost;
@@ -43,6 +51,7 @@ public class World {
 		screenWidth = gc.getWidth();
 		screenHeight = gc.getHeight();
 		
+		// Setting the delay
 		delay = 500;
 	}
 	
@@ -55,6 +64,8 @@ public class World {
 		timer.start();
 		
 		lost = false;
+		
+		score = 0;
 	}
 	
 	public void update(Input i) {
@@ -72,6 +83,7 @@ public class World {
 				
 				snake.addPart();
 				delay -= 2;
+				score++;
 			}
 			
 			timer.reset();
@@ -82,8 +94,19 @@ public class World {
 		g.setColor(new Color(0, 0, 0));
 		g.fillRect(0, 0, screenWidth, screenHeight);
 		
+		Writer.instance().changeFontSize(15);
+		Writer.instance().write(5, 5, "Score: " + score);
+		
 		snake.render(g, this);
 		food.render(g, this);
+		
+		if (lost) {
+			Writer.instance().changeFontSize(60);
+			Writer.instance().writeCentered(screenWidth / 2, screenHeight / 2, "GG");
+			
+			Writer.instance().changeFontSize(30);
+			Writer.instance().writeCentered(screenWidth / 2, screenHeight / 2 + 50, "Time to Alt+F4?");
+		}
 	}
 	
 	// Generating food
@@ -105,9 +128,7 @@ public class World {
 	}
 	
 	// Losing
-	public void lose() {
-		lost = true;
-	}
+	public void lose() { lost = true; }
 
 	// Accessors
 	public Snake getSnake() { return snake; }

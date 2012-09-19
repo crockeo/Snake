@@ -28,9 +28,8 @@ public class Tile {
 		lY = y;
 	}
 	
-	public String toString() {
-		return "TileType: " + tileType + "\nX: " + x + "\nY: " + y;
-	}
+	// toStringing! :D
+	public String toString() { return "TileType: " + tileType + "\nX: " + x + "\nY: " + y; }
 	
 	// Checking if the tile is on another tile
 	public boolean on(Tile t) { return getX() == t.getX() && getY() == t.getY(); }

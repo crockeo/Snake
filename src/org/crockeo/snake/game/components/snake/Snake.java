@@ -37,7 +37,7 @@ public class Snake {
 	
 		head.move();
 		if ((head.getX() < 0 || head.getX() > w.getWidth() - 1)
-			|| (head.getY() < 0 || head.getY() > w.getHeight()))
+			|| (head.getY() < 0 || head.getY() > w.getHeight() - 2))
 			ret = true; // Player has lost
 		
 		for (SnakeBody b: body)

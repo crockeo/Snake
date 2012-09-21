@@ -41,11 +41,11 @@ public class Snake {
 			ret = true; // Player has lost
 		
 		for (SnakeBody b: body)
-			if (head.on(b))
-				ret = true; // Player has lost
+			b.move();
 		
 		for (SnakeBody b: body)
-			b.move();
+			if (head.on(b))
+				ret = true; // Player has lost
 		
 		if (shouldAdd)
 			actuallyAddPart();
